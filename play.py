@@ -25,6 +25,20 @@ def sinus_sample(freq, microseconds, rate):
         audio = np.concatenate((audio, wave))
     return audio
 
+def prog_sinus_sample(freq, microseconds, rate):
+    x = np.linspace(0, 2*np.pi, int(rate/freq))
+    pure_wave = np.sin(x)
+    wave = pure_wave * POS_MAX
+
+    half_ampl = pure_wave * int(POS_MAX/2)
+    wave_comp = np.concatenate((wave, half_ampl))
+    audio = wave_comp
+    wave_duration = int(1 / freq * 1000000) # microseconds per wave
+    assert microseconds > wave_duration
+    for x in range(int(microseconds / wave_duration)):
+        audio = np.concatenate((audio, wave_comp))
+    return audio
+
 def triangular_sample(freq, microseconds, rate):
     slope_rise = np.linspace(NEG_MAX, POS_MAX, int(rate/freq/2))
     slope_fall = np.linspace(POS_MAX, NEG_MAX, int(rate/freq/2))
@@ -209,6 +223,38 @@ def play_sample_stereo_3():
 
     return audio
 
+def smooth_sinus_figure():
+    x = 60
+    silence100ms = np.zeros(int(rate / 1000))
+    a1 = silence100ms
+    a2 = silence100ms
+
+    for bass in np.linspace(100, 40, 10):
+        freq = 2*bass
+        a1 = np.concatenate((a1, sinus_sample(freq, 50000, rate)))
+        a2 = np.concatenate((a2, sinus_sample(bass, 50000, rate)))
+
+    for bass in (x, 2*x, x):
+        for freq in (2*x, 3*x, 2*x, 4*x, 2*x, 5*x, 4*x, 3*x):
+            a1 = np.concatenate((a1, sinus_sample(freq, 100000, rate)))
+            a1 = np.concatenate((a1, sinus_sample(freq, 100000, rate)))
+            a2 = np.concatenate((a2, sinus_sample(bass, 100000, rate)))
+            a2 = np.concatenate((a2, sinus_sample(bass, 100000, rate)))
+
+    if len(a1) < len(a2):
+        diff = len(a2) - len(a1)
+        print(diff)
+        a1 = np.concatenate((a1, np.zeros(diff)))
+
+    a1 = a1.astype(np.int16)
+    a2 = a2.astype(np.int16)
+    audio = np.vstack((a1, a2))
+    audio = audio.transpose()
+    audio = audio.copy(order='C')
+    play_obj = sa.play_buffer(audio, 2, 2, rate)
+    play_obj.wait_done()
+
+
 if __name__ == '__main__':
-    play_sample_stereo_3()
+    smooth_sinus_figure()
 
