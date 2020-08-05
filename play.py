@@ -185,11 +185,12 @@ def play_sample_stereo_3():
     a1 = silence100ms
     a2 = silence100ms
     #a2 = np.zeros(int(rate / 1000))
-    for freq in (x, x * 2, x, x * 3, x, x * 4, x * 3, x * 2):
-        a1 = np.concatenate((a1, sinus_sample(freq, 100000, rate)))
-        a1 = np.concatenate((a1, sinus_sample(freq, 100000, rate)))
-        a2 = np.concatenate((a2, sinus_sample(x, 100000, rate)))
-        a2 = np.concatenate((a2, sinus_sample(x, 100000, rate)))
+    for bass in (x, 2*x, x, 2*x):
+        for freq in (2*x, 3*x, 2*x, 4*x, 2*x, 5*x, 4*x, 3*x):
+            a1 = np.concatenate((a1, sinus_sample(freq, 100000, rate)))
+            a1 = np.concatenate((a1, sinus_sample(freq, 100000, rate)))
+            a2 = np.concatenate((a2, sinus_sample(bass, 100000, rate)))
+            a2 = np.concatenate((a2, sinus_sample(bass, 100000, rate)))
 
     if len(a2) < len(a1):
         diff = len(a1) - len(a2)
