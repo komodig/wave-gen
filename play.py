@@ -65,11 +65,11 @@ def triangular_square():
 
     return a1, a2
 
-def sinus_figure():
+def sinus_figure_1():
     x = 60
-    silence100ms = np.zeros(int(rate / 1000))
-    a1 = silence100ms
-    a2 = silence100ms
+    nothing = np.zeros(1)
+    a1 = nothing
+    a2 = nothing
 
     for bass in np.linspace(100, 40, 10):
         freq = 2*bass
@@ -77,16 +77,48 @@ def sinus_figure():
         a2 = np.concatenate((a2, sinus_sample(bass, 40000, rate)))
 
     for bass in (x, 2.5*x, 1.5*x):
-        for freq in (4*x, 2*x, 3*x, 4*x, 2*x, 3*x, ):
+        for freq in (4*x, 2*x, 3*x, 4*x, 2*x, 3*x):
             a1 = np.concatenate((a1, sinus_sample(freq, 120000, rate)))
             a2 = np.concatenate((a2, sinus_sample(bass, 120000, rate)))
 
     return a1, a2
 
-if __name__ == '__main__':
-    #a1, a2 = triangular_square()
-    a1, a2 = sinus_figure()
+def sinus_figure_2():
+    x = 60
+    nothing = np.zeros(1)
+    a1 = nothing
+    a2 = nothing
 
+    for bass in (2.5*x, 3*x, 2.5*x):
+        for freq in (4*x, 2*x, 3*x, 4*x, 2*x, 3*x):
+            a1 = np.concatenate((a1, sinus_sample(freq, 120000, rate)))
+            a2 = np.concatenate((a2, sinus_sample(bass, 120000, rate)))
+
+    return a1, a2
+
+def triangular_sequence_1():
+    x = 60
+    nothing = np.zeros(1)
+    a1 = nothing
+    a2 = nothing
+
+    for bass in (1.5*x,):
+        for freq in (6*x, 5*x, 4*x, 3*x, 4*x, 5*x, 6*x):
+            a1 = np.concatenate((a1, triangular_sample(freq, 120000, rate)))
+            a2 = np.concatenate((a2, triangular_sample(bass, 120000, rate)))
+
+    return a1, a2
+
+if __name__ == '__main__':
+    a1a, a2a = sinus_figure_1()
+    a1b, a2b = sinus_figure_2()
+    a1 = np.concatenate((a1a, a1b))
+    a2 = np.concatenate((a2a, a2b))
+    a1c, a2c = triangular_sequence_1()
+    a1 = np.concatenate((a1, a1c))
+    a2 = np.concatenate((a2, a2c))
+
+    #a1, a2 = triangular_square()
     if len(a1) < len(a2):
         diff = len(a2) - len(a1)
         print(diff)
