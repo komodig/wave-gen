@@ -122,7 +122,7 @@ def sinus_figure_2():
     a2 = almost_nothing
 
     for bass in (2.5*x, 3*x, 2.5*x):
-        for freq in (4*x, 2*x, 3*x, 4*x, 2*x, 3*x):
+        for freq in (3*x, 2*x, 3*x, 1*x, 2*x, 3*x):
             a1 = np.concatenate((a1, sinus_sample(freq, 120000, rate)))
             a2 = np.concatenate((a2, sinus_sample(bass, 120000, rate)))
 
