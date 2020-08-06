@@ -17,7 +17,7 @@ def sinus_sample(freq, microseconds, rate):
     x = np.linspace(0, 2*np.pi, int(rate/freq))
     wave = np.sin(x)
     wave = wave * POS_MAX
-    audio = wave
+    audio = wave # 1st wave
     wave_duration = int(1 / freq * 1000000) # microseconds per wave
     assert microseconds > wave_duration
     for x in range(int(microseconds / wave_duration) - 1):  # -1st wave already added before
@@ -65,7 +65,7 @@ def triangular_square():
 
     return a1, a2
 
-def square_bass():
+def legacy_square_bass():
     x = 40
     nothing = np.zeros(1)
     a1 = nothing
@@ -84,6 +84,19 @@ def square_bass():
 
     return a1, a2
 
+def awesome_bomb(duration):
+    almost_nothing = np.zeros(1)
+    a1 = almost_nothing
+    a2 = almost_nothing
+
+    while len(a1) < duration:
+        for bass in np.linspace(100, 40, 10):
+            freq = 2*bass
+            a1 = np.concatenate((a1, sinus_sample(freq, duration, rate)))
+            a2 = np.concatenate((a2, sinus_sample(bass, duration, rate)))
+
+    return a1, a2
+
 def sinus_figure_1():
     x = 60
     almost_nothing = np.zeros(1)
@@ -96,7 +109,7 @@ def sinus_figure_1():
         a2 = np.concatenate((a2, sinus_sample(bass, 40000, rate)))
 
     for bass in (x, 2.5*x, 1.5*x):
-        for freq in (4*x, 2*x, 3*x, 4*x, 2*x, 3*x):
+        for freq in (2*x, 1*x, 1.5*x, 2*x, 1*x, 1.5*x):
             a1 = np.concatenate((a1, sinus_sample(freq, 120000, rate)))
             a2 = np.concatenate((a2, sinus_sample(bass, 120000, rate)))
 
@@ -140,9 +153,13 @@ def sinus_sequence_1():
     return a1, a2
 
 if __name__ == '__main__':
-    b1, b2 = square_bass()
+    #b1 = a1; b2 = a2
     a1, a2 = sinus_sequence_1()
+    print(len(a1))
+    b1, b2 = awesome_bomb(len(a1))
     #a1, a2 = triangular_square()
+
+    a1 = np.concatenate((a1, a1))
     if len(a1) < len(a2):
         diff = len(a2) - len(a1)
         print(diff)
@@ -160,9 +177,9 @@ if __name__ == '__main__':
         diff = len(a2) - len(b2)
         print(diff)
         b2 = np.concatenate((np.zeros(diff), b2))
+    a1 = np.concatenate((a1, (a1 + b1)))
+    a2 = np.concatenate((a2, (a2 + b2)))
     print('a1: {} a2: {} b1: {} b2: {}'.format(len(a1), len(a2), len(b1), len(b2)))
-    a1 += b1
-    a2 += b2
 
     a1 = a1.astype(np.int16)
     a2 = a2.astype(np.int16)
