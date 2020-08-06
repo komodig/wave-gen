@@ -40,8 +40,8 @@ def triangular_sample(freq, microseconds, rate):
 
 def square_sample(freq, microseconds, rate):
     # a single wave consists of 4 parts with half of it is silence
-    first_half = np.full((int(rate/freq/4),), int(POS_MAX/2))   # use POS_MAX/2 because square is very dominant
-    second_half = np.full((int(rate/freq/4),), int(NEG_MAX/2))  # use NEG_MAX/2 because square is very dominant
+    first_half = np.full((int(rate/freq/4),), int(POS_MAX/4))   # use POS_MAX/2 because square is very dominant
+    second_half = np.full((int(rate/freq/4),), int(NEG_MAX/4))  # use NEG_MAX/2 because square is very dominant
     wave = np.concatenate((first_half, second_half))
     wave = np.concatenate((wave, np.zeros(int(rate/freq/2))))
     audio = wave # start autio with something to concatenate on
@@ -65,11 +65,30 @@ def triangular_square():
 
     return a1, a2
 
-def sinus_figure_1():
-    x = 60
+def square_bass():
+    x = 40
     nothing = np.zeros(1)
     a1 = nothing
     a2 = nothing
+
+    for bass in np.linspace(100, 40, 20):
+        a1 = np.concatenate((a1, square_sample(bass, 40000, rate)))
+        a2 = np.concatenate((a2, square_sample(bass, 40000, rate)))
+
+    silence = np.zeros(int(rate/4))
+    for i in range(8):
+        a1 = np.concatenate((a1, square_sample(x, 300000, rate)))
+        a1 = np.concatenate((a1, silence))
+        a2 = np.concatenate((a2, square_sample(x, 300000, rate)))
+        a2 = np.concatenate((a2, silence))
+
+    return a1, a2
+
+def sinus_figure_1():
+    x = 60
+    almost_nothing = np.zeros(1)
+    a1 = almost_nothing
+    a2 = almost_nothing
 
     for bass in np.linspace(100, 40, 10):
         freq = 2*bass
@@ -85,9 +104,9 @@ def sinus_figure_1():
 
 def sinus_figure_2():
     x = 60
-    nothing = np.zeros(1)
-    a1 = nothing
-    a2 = nothing
+    almost_nothing = np.zeros(1)
+    a1 = almost_nothing
+    a2 = almost_nothing
 
     for bass in (2.5*x, 3*x, 2.5*x):
         for freq in (4*x, 2*x, 3*x, 4*x, 2*x, 3*x):
@@ -109,7 +128,7 @@ def triangular_sequence_1():
 
     return a1, a2
 
-if __name__ == '__main__':
+def sinus_sequence_1():
     a1a, a2a = sinus_figure_1()
     a1b, a2b = sinus_figure_2()
     a1 = np.concatenate((a1a, a1b))
@@ -118,6 +137,11 @@ if __name__ == '__main__':
     a1 = np.concatenate((a1, a1c))
     a2 = np.concatenate((a2, a2c))
 
+    return a1, a2
+
+if __name__ == '__main__':
+    b1, b2 = square_bass()
+    a1, a2 = sinus_sequence_1()
     #a1, a2 = triangular_square()
     if len(a1) < len(a2):
         diff = len(a2) - len(a1)
@@ -127,6 +151,18 @@ if __name__ == '__main__':
         diff = len(a1) - len(a2)
         print(diff)
         a2 = np.concatenate((a2, np.zeros(diff)))
+
+    if len(b1) < len(a1):
+        diff = len(a1) - len(b1)
+        print(diff)
+        b1 = np.concatenate((np.zeros(diff), b1))
+    if len(b2) < len(a2):
+        diff = len(a2) - len(b2)
+        print(diff)
+        b2 = np.concatenate((np.zeros(diff), b2))
+    print('a1: {} a2: {} b1: {} b2: {}'.format(len(a1), len(a2), len(b1), len(b2)))
+    a1 += b1
+    a2 += b2
 
     a1 = a1.astype(np.int16)
     a2 = a2.astype(np.int16)
