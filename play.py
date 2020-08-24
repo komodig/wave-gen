@@ -3,23 +3,18 @@ import numpy as np
 from libwave import *
 
 if __name__ == '__main__':
-    duration = 31075
-    a1 = a2 = np.zeros(1)
-    x = 50
+    a1, a2 = sinus_sequence_1()
 
-    b1, b2 = awesome_bomb(duration)
-    for freq in (6 * x, 5 * x, 4 * x, 3 * x, 4 * x, 5 * x):
-        a1 = np.concatenate((a1, triangular_sample(freq, duration*4, rate)))
-    for freq in (6 * x, 5 * x, 4 * x, 3 * x, 4 * x, 5 * x):
-        a1 = np.concatenate((a1, triangular_sample(freq*2, duration*4, rate)))
     print('initial len %d' % len(a1))
+    #a2, _ = awesome_bass(len(a1))
+
     if len(a1) < len(a2):
         diff = len(a2) - len(a1)
-        print(diff)
+        print('a1 < a2: ' + str(diff))
         a1 = np.concatenate((a1, np.zeros(diff)))
     elif len(a2) < len(a1):
         diff = len(a1) - len(a2)
-        print(diff)
+        print('a2 < a1: ' + str(diff))
         a2 = np.concatenate((a2, np.zeros(diff)))
 
     try:
@@ -37,8 +32,6 @@ if __name__ == '__main__':
         print('a1: {} a2: {} b1: {} b2: {}'.format(len(a1), len(a2), len(b1), len(b2)))
     except NameError:
         print('a1: {} a2: {}'.format(len(a1), len(a2)))
-        pass
-
 
     a1 = a1.astype(np.int16)
     a2 = a2.astype(np.int16)

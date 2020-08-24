@@ -83,7 +83,7 @@ def legacy_square_bass():
 
     return a1, a2
 
-def awesome_bomb(duration):
+def awesome_bass(duration):
     almost_nothing = np.zeros(1)
     a1 = almost_nothing
     a2 = almost_nothing
@@ -102,15 +102,11 @@ def sinus_figure_1():
     a1 = almost_nothing
     a2 = almost_nothing
 
-    for bass in np.linspace(100, 40, 10):
-        freq = 2*bass
-        a1 = np.concatenate((a1, sinus_sample(freq, 40000, rate)))
-        a2 = np.concatenate((a2, sinus_sample(bass, 40000, rate)))
+    for freq in np.linspace(240, 100, 100):
+        a1 = np.concatenate((a1, sinus_sample(freq, 220000, rate)))
 
-    for bass in (x, 2.5*x, 1.5*x):
-        for freq in (2*x, 1*x, 1.5*x, 2*x, 1*x, 1.5*x):
-            a1 = np.concatenate((a1, sinus_sample(freq, 120000, rate)))
-            a2 = np.concatenate((a2, sinus_sample(bass, 120000, rate)))
+    for freq in np.linspace(120, 100, 100):
+        a2 = np.concatenate((a2, sinus_sample(freq, 220000, rate)))
 
     return a1, a2
 
@@ -140,14 +136,23 @@ def triangular_sequence_1(duration=120000):
 
     return a1, a2
 
+def triangular_sequence_2(duration):
+    x = 50
+    nothing = np.zeros(1)
+    a1 = nothing
+    a2 = nothing
+
+    for freq in (6 * x, 5 * x, 4 * x, 3 * x, 4 * x, 5 * x):
+        a1 = np.concatenate((a1, triangular_sample(freq, duration * 4, rate)))
+    for freq in (6 * x, 5 * x, 4 * x, 3 * x, 4 * x, 5 * x):
+        a1 = np.concatenate((a1, triangular_sample(freq * 2, duration * 4, rate)))
+    for freq in (6 * x, 5 * x, 4 * x, 3 * x, 4 * x, 5 * x):
+        a1 = np.concatenate((a1, triangular_sample(freq * 2, duration * 4, rate)))
+
+    return a1, a2
+
 def sinus_sequence_1():
-    a1a, a2a = sinus_figure_1()
-    a1b, a2b = sinus_figure_2()
-    a1 = np.concatenate((a1a, a1b))
-    a2 = np.concatenate((a2a, a2b))
-    a1c, a2c = triangular_sequence_1()
-    a1 = np.concatenate((a1, a1c))
-    a2 = np.concatenate((a2, a2c))
+    a1, a2 = sinus_figure_1()
 
     return a1, a2
 
