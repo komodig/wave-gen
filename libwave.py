@@ -102,10 +102,15 @@ def sinus_figure_1():
     a1 = almost_nothing
     a2 = almost_nothing
 
-    for freq in np.linspace(240, 100, 100):
+    chan1 = list(np.concatenate((np.linspace(60, 150, 30), np.linspace(150, 120, 20))))
+    chan2 = list(np.concatenate((np.linspace(50, 150, 30), np.linspace(150, 120, 20))))
+    chan1 += reversed(chan1)
+    chan2 += reversed(chan2)
+
+    for freq in chan1:
         a1 = np.concatenate((a1, sinus_sample(freq, 220000, rate)))
 
-    for freq in np.linspace(120, 100, 100):
+    for freq in chan2:
         a2 = np.concatenate((a2, sinus_sample(freq, 220000, rate)))
 
     return a1, a2
