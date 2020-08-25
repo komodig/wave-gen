@@ -23,7 +23,7 @@ def sinus_sample(freq, microseconds, rate, plot=False):
     wave_duration = int(1 / freq * 1000000) # microseconds per wave
     assert microseconds > wave_duration
     for i in range(int(microseconds / wave_duration) - 1):  # -1st wave already added before
-        audio = np.concatenate((audio, wave))
+        audio = np.concatenate((audio, wave[1:]))  # skip 1st element in wave for clean zero point
 
     return audio
 
@@ -165,7 +165,7 @@ def sinus_sequence_1():
     a1 = sinus_sample(400, 5000000, rate)
     a2 = sinus_sample(100, 5000000, rate)
 
-    x2 = sinus_sample(600, 6000000, rate)
+    x2 = sinus_sample(400, 6000000, rate)
     x2 = x2[:len(a2)]
     x2 /= 10
     a2 = a2 + x2
