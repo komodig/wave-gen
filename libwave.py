@@ -1,4 +1,5 @@
 import numpy as np
+from plot import wave_plot
 
 
 POS_MAX = int(2 ** 15 - 1)
@@ -12,10 +13,12 @@ def play_file():
     play_obj = wave_obj.play()
     play_obj.wait_done()  # Wait until sound has finished playing
 
-def sinus_sample(freq, microseconds, rate):
+def sinus_sample(freq, microseconds, rate, plot=False):
     x = np.linspace(0, 2*np.pi, int(rate/freq))
     wave = np.sin(x)
     wave = wave * POS_MAX
+    if plot:
+        wave_plot(x, wave)
     audio = wave # 1st wave
     wave_duration = int(1 / freq * 1000000) # microseconds per wave
     assert microseconds > wave_duration
@@ -24,10 +27,12 @@ def sinus_sample(freq, microseconds, rate):
 
     return audio
 
-def triangular_sample(freq, microseconds, rate):
+def triangular_sample(freq, microseconds, rate, plot=False):
     slope_rise = np.linspace(NEG_MAX, POS_MAX, int(rate/freq/2))
     slope_fall = np.linspace(POS_MAX, NEG_MAX, int(rate/freq/2))
     wave = np.concatenate((slope_rise, slope_fall))
+    if plot:
+        wave_plot(range(int(rate/freq)), wave)
     audio = wave # start autio with something to concatenate on
     wave_duration = int(1 / freq * 1000000) # microseconds per wave
 
@@ -157,7 +162,9 @@ def triangular_sequence_2(duration):
     return a1, a2
 
 def sinus_sequence_1():
-    a1, a2 = sinus_figure_1()
+    a2 = sinus_sample(100, 1000000, rate, plot=True)
+    a1 = triangular_sample(200, 1000000, rate, plot=True)
+
 
     return a1, a2
 
