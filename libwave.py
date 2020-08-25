@@ -162,8 +162,15 @@ def triangular_sequence_2(duration):
     return a1, a2
 
 def sinus_sequence_1():
-    a2 = sinus_sample(100, 500000, rate)
-    a1 = triangular_sample(200, 500000, rate)
+    a1 = sinus_sample(400, 5000000, rate)
+    a2 = sinus_sample(100, 5000000, rate)
+
+    x2 = sinus_sample(600, 6000000, rate)
+    x2 = x2[:len(a2)]
+    x2 /= 10
+    a2 = a2 + x2
+    a2 *= 0.7
+    wave_plot(range(1500), a1[:1500], a2[:1500])
 
     return a1, a2
 

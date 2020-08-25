@@ -3,8 +3,7 @@ import numpy as np
 from libwave import *
 
 if __name__ == '__main__':
-    a1 = triangular_sample(200, 500000, rate)
-    a2 = sinus_sample(100, 500000, rate)
+    a1, a2 = sinus_sequence_1()
 
     print('initial len %d' % len(a1))
     #a2, _ = awesome_bass(len(a1))
@@ -33,8 +32,6 @@ if __name__ == '__main__':
         print('a1: {} a2: {} b1: {} b2: {}'.format(len(a1), len(a2), len(b1), len(b2)))
     except NameError:
         print('a1: {} a2: {}'.format(len(a1), len(a2)))
-
-    wave_plot(range(1000), a1[:1000], a2[:1000])
 
     a1 = a1.astype(np.int16)
     a2 = a2.astype(np.int16)
