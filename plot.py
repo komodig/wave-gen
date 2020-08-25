@@ -1,8 +1,7 @@
 import matplotlib.pyplot as plot
-import numpy as np
 
-def wave_plot(x_values, amplitude):
-    plot.plot(x_values, amplitude)
+def wave_plot(time, fx):
+    plot.plot(time, fx)
 
     plot.title('Wave')
     plot.xlabel('Time')

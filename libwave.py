@@ -162,9 +162,8 @@ def triangular_sequence_2(duration):
     return a1, a2
 
 def sinus_sequence_1():
-    a2 = sinus_sample(100, 1000000, rate, plot=True)
-    a1 = triangular_sample(200, 1000000, rate, plot=True)
-
+    a2 = sinus_sample(100, 500000, rate)
+    a1 = triangular_sample(200, 500000, rate)
 
     return a1, a2
 
