@@ -1,5 +1,5 @@
 import numpy as np
-from plot import wave_plot
+from plot import single_plot, dual_plot
 
 
 POS_MAX = int(2 ** 15 - 1)
@@ -18,11 +18,11 @@ def sinus_sample(freq, microseconds, rate, plot=False):
     wave = np.sin(x)
     wave = wave * POS_MAX
     if plot:
-        wave_plot(x, wave)
+        single_plot(x, wave)
     audio = wave # 1st wave
     wave_duration = int(1 / freq * 1000000) # microseconds per wave
     assert microseconds > wave_duration
-    for x in range(int(microseconds / wave_duration) - 1):  # -1st wave already added before
+    for i in range(int(microseconds / wave_duration) - 1):  # -1st wave already added before
         audio = np.concatenate((audio, wave))
 
     return audio
@@ -32,7 +32,7 @@ def triangular_sample(freq, microseconds, rate, plot=False):
     slope_fall = np.linspace(POS_MAX, NEG_MAX, int(rate/freq/2))
     wave = np.concatenate((slope_rise, slope_fall))
     if plot:
-        wave_plot(range(int(rate/freq)), wave)
+        single_plot(range(int(rate/freq)), wave)
     audio = wave # start autio with something to concatenate on
     wave_duration = int(1 / freq * 1000000) # microseconds per wave
 
@@ -170,7 +170,7 @@ def sinus_sequence_1():
     x2 /= 10
     a2 = a2 + x2
     a2 *= 0.7
-    wave_plot(range(1500), a1[:1500], a2[:1500])
+    dual_plot(range(1000), a1[:1000], a2[:1000])
 
     return a1, a2
 
