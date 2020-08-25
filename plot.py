@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plot
 
-def wave_plot(time, fx):
-    plot.plot(time, fx)
+def wave_plot(time, fx1, fx2):
+    plot.plot(time, fx1, color='blue')
+    plot.plot(time, fx2, color='red')
 
     plot.title('Wave')
     plot.xlabel('Time')

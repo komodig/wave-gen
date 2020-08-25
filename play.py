@@ -34,7 +34,7 @@ if __name__ == '__main__':
     except NameError:
         print('a1: {} a2: {}'.format(len(a1), len(a2)))
 
-    wave_plot(range(1000), a2[:1000])
+    wave_plot(range(1000), a1[:1000], a2[:1000])
 
     a1 = a1.astype(np.int16)
     a2 = a2.astype(np.int16)
