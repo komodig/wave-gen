@@ -164,18 +164,20 @@ def triangular_sequence_2(duration):
 def sinus_sequence_1():
     b1 = b2 = np.zeros(1)
     x = 50
-    for var in (x*1, x*1.5, x*2, x*3, x*4, x*2, x*5, x*3.5, x*2):
-        a1 = sinus_sample(100 + var, 3000000, rate)
-        a2 = sinus_sample(100, 3000000, rate)
+    for var in (x*1, x*2, x*3, x*4, x*2, x*5, x*2):
+        for amp in list(range(1,5)) + list(reversed(range(1,5))):
+            a1 = sinus_sample(100 + var, 300000, rate)
+            a2 = sinus_sample(100, 300000, rate)
+            a2 /= amp
 
-        x2 = sinus_sample(400, 4000000, rate)
-        x2 = x2[:len(a2)]
-        x2 /= 10
-        a2 = a2 + x2
-        a2 *= 0.7
+            x2 = sinus_sample(400, 400000, rate)
+            x2 = x2[:len(a2)]
+            x2 /= 10
+            a2 = a2 + x2
+            a2 *= 0.7
 
-        b1 = np.concatenate((b1, a1))
-        b2 = np.concatenate((b2, a2))
+            b1 = np.concatenate((b1, a1))
+            b2 = np.concatenate((b2, a2))
 
     dual_plot(range(1000), a1[:1000], a2[:1000])
 
