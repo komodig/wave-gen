@@ -21,11 +21,11 @@ if __name__ == '__main__':
         if len(b1) < len(a1):
             diff = len(a1) - len(b1)
             print('b1 < a1: ' + str(diff))
-            b1 = np.concatenate((np.zeros(diff), b1))
+            b1 = np.concatenate((b1, np.zeros(diff)))
         if len(b2) < len(a2):
             diff = len(a2) - len(b2)
             print('b2 < a2: ' + str(diff))
-            b2 = np.concatenate((np.zeros(diff), b2))
+            b2 = np.concatenate((b2, np.zeros(diff)))
 
         a1 = np.concatenate((a1, b1))
         a2 = np.concatenate((a2, b2))
