@@ -56,19 +56,6 @@ def square_sample(freq, microseconds, rate):
 
     return audio
 
-def triangular_square():
-    x = 60
-    silence100ms = np.zeros(int(rate / 1000))
-    a1 = silence100ms
-    a2 = silence100ms
-
-    for bass in (x, 2.5*x, 1.5*x):
-        for freq in (4*x, 2*x, 3*x, 4*x, 2*x, 3*x, ):
-            a1 = np.concatenate((a1, triangular_sample(freq, 120000, rate)))
-            a2 = np.concatenate((a2, square_sample(bass, 120000, rate)))
-
-    return a1, a2
-
 def legacy_square_bass():
     x = 40
     nothing = np.zeros(1)
@@ -88,7 +75,7 @@ def legacy_square_bass():
 
     return a1, a2
 
-def awesome_bass(duration):
+def awesome_bass(duration=30000):
     almost_nothing = np.zeros(1)
     a1 = almost_nothing
     a2 = almost_nothing
@@ -101,7 +88,7 @@ def awesome_bass(duration):
 
     return a1, a2
 
-def sinus_figure_1():
+def legacy_sinus_figure_1():
     x = 60
     almost_nothing = np.zeros(1)
     a1 = almost_nothing
@@ -120,7 +107,7 @@ def sinus_figure_1():
 
     return a1, a2
 
-def sinus_figure_2():
+def legacy_sinus_figure_2():
     x = 60
     almost_nothing = np.zeros(1)
     a1 = almost_nothing
@@ -142,22 +129,7 @@ def triangular_sequence_1(duration=120000):
     for bass in (1.5*x,):
         for freq in (6*x, 5*x, 4*x, 3*x, 4*x, 5*x):
             a1 = np.concatenate((a1, triangular_sample(freq, duration, rate)))
-            a2 = np.concatenate((a2, triangular_sample(freq, duration, rate)))
-
-    return a1, a2
-
-def triangular_sequence_2(duration):
-    x = 50
-    nothing = np.zeros(1)
-    a1 = nothing
-    a2 = nothing
-
-    for freq in (6 * x, 5 * x, 4 * x, 3 * x, 4 * x, 5 * x):
-        a1 = np.concatenate((a1, triangular_sample(freq, duration * 4, rate)))
-    for freq in (6 * x, 5 * x, 4 * x, 3 * x, 4 * x, 5 * x):
-        a1 = np.concatenate((a1, triangular_sample(freq * 2, duration * 4, rate)))
-    for freq in (6 * x, 5 * x, 4 * x, 3 * x, 4 * x, 5 * x):
-        a1 = np.concatenate((a1, triangular_sample(freq * 2, duration * 4, rate)))
+            a2 = np.concatenate((a2, triangular_sample(bass, duration, rate)))
 
     return a1, a2
 
