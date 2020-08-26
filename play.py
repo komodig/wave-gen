@@ -4,7 +4,7 @@ from libwave import *
 
 if __name__ == '__main__':
     a1, a2 = sinus_sequence_1()
-
+    b1, b2 = sinus_sequence_2()
     print('initial len %d' % len(a1))
     #a2, _ = awesome_bass(len(a1))
 
