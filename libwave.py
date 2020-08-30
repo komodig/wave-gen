@@ -127,7 +127,7 @@ def triangular_sequence_1(duration=120000):
     a2 = nothing
 
     for bass in (1.5*x,):
-        for freq in (6*x, 5*x, 4*x, 3*x, 4*x, 5*x):
+        for freq in (6*x, 5*x, 4*x, 3*x, 4*x, 5*x, 6*x, 5*x, 4*x, 7*x, 6*x, 5*x):
             a1 = np.concatenate((a1, triangular_sample(freq, duration, rate)))
             a2 = np.concatenate((a2, triangular_sample(bass, duration, rate)))
 
