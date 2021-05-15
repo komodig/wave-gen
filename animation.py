@@ -1,28 +1,25 @@
 import pygame
+from libwave import POS_MAX
 
-def draw_coordinate_cross(screen): 
+def _draw_coordinate_cross(screen, width, height):
     cross_color = pygame.Color(44,33,120)
     pygame.draw.line(screen, cross_color, (0, height/2), (width, height/2), 2)
     pygame.draw.line(screen, cross_color, (width/2, 0), (width/2, height), 2)
 
-def draw_wave(screen):
-    line_color = pygame.Color(55,155,55)
-    spots = []
+def _draw_lines(screen, vals, rgb, width, height):
+    r, g, b = rgb
+    line_color = pygame.Color(r, g, b)
+    last_spot = None
 
-    x = -300
-    while x < 300:
-        y = x**2 - 10*x + 12
-        spots.append((x+width/2,y+height/2))
-        x += 2
-
-    last_spot = None 
-    for xy in spots:
+    vtup = zip(list(range(width)), vals[:width])
+    for _xy in vtup:
+        xy = (_xy[0], _xy[1] * (1/(2*POS_MAX/height)) + height/2) # scale amplitude to graph-size
         if last_spot is not None:
             pygame.draw.line(screen, line_color, last_spot, xy, 2)
-            # print('({}:{} -> {}:{})'.format(last_spot[0], last_spot[1], xy[0], xy[1]))
+            print('({}:{} -> {}:{})'.format(last_spot[0], last_spot[1], xy[0], xy[1]))
         last_spot = xy
 
-if __name__ == '__main__':
+def draw_wave(f1, f2):
     pygame.init()
 
     width = 1024
@@ -36,8 +33,10 @@ if __name__ == '__main__':
 
     background.fill((20, 20, 20))
     screen.blit(background, (0, 0))
-    draw_coordinate_cross(screen)
-    draw_wave(screen)
+    _draw_coordinate_cross(screen, width, height)
+    _draw_lines(screen, f1, [55, 155, 55], width, height)
+    _draw_lines(screen, f2, [166, 66, 66], width, height)
+
     pygame.display.flip()
 
     while True:

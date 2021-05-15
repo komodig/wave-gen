@@ -1,7 +1,6 @@
 import numpy as np
 from plot import single_plot
 
-
 POS_MAX = int(2 ** 15 - 1)
 NEG_MAX = int(2 ** 15) * -1
 

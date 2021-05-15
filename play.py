@@ -1,9 +1,10 @@
 import simpleaudio as sa
 from libwave import RATE
 from sequence import *
+from animation import draw_wave
 
 if __name__ == '__main__':
-    for (a1, a2) in ((awesome_bass()), (legacy_square_bass()), (triangular_sequence_1()), (sinus_sequence_2()), (sinus_sequence_1())):
+    for (a1, a2) in ((simple_sinus()),):
         if len(a1) < len(a2):
             diff = len(a2) - len(a1)
             print('a1 < a2: ' + str(diff))
@@ -17,6 +18,7 @@ if __name__ == '__main__':
 
         a1 = a1.astype(np.int16)
         a2 = a2.astype(np.int16)
+        draw_wave(a1, a2)
         audio = np.vstack((a1, a2))
         audio = audio.transpose()
         audio = audio.copy(order='C')

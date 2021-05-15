@@ -35,8 +35,13 @@ def awesome_bass(duration=30000):
 
     return a1, a2
 
+def simple_sinus():
+    a1 = sinus_sample(400, 1200000, RATE)
+    a2 = sinus_sample(440, 1000000, RATE)
+
+    return a1, a2
+
 def legacy_sinus_figure_1():
-    x = 60
     almost_nothing = np.zeros(1)
     a1 = almost_nothing
     a2 = almost_nothing
@@ -97,8 +102,6 @@ def sinus_sequence_1():
 
             b1 = np.concatenate((b1, a1))
             b2 = np.concatenate((b2, a2))
-
-    dual_plot(range(1000), a1[:1000], a2[:1000])
 
     return b1, b2
 
