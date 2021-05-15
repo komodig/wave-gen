@@ -1,7 +1,5 @@
-import simpleaudio as sa
-from libwave import RATE
 from sequence import *
-from animation import draw_wave
+from animation import play_wave, draw_wave
 
 if __name__ == '__main__':
     for (a1, a2) in ((simple_sinus()),):
@@ -18,12 +16,12 @@ if __name__ == '__main__':
 
         a1 = a1.astype(np.int16)
         a2 = a2.astype(np.int16)
-        draw_wave(a1, a2)
         audio = np.vstack((a1, a2))
         audio = audio.transpose()
         audio = audio.copy(order='C')
-        play_obj = sa.play_buffer(audio, 2, 2, RATE)
-        play_obj.wait_done()
+
+        play_wave(audio)
+        draw_wave(a1, a2)
 
 
 

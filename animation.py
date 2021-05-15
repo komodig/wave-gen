@@ -19,6 +19,14 @@ def _draw_lines(screen, vals, rgb, width, height):
             print('({}:{} -> {}:{})'.format(last_spot[0], last_spot[1], xy[0], xy[1]))
         last_spot = xy
 
+def play_wave(audio):
+    pygame.mixer.init()
+    print(pygame.mixer.get_init())
+    print(pygame.mixer.get_num_channels())
+    snd = pygame.sndarray.make_sound(audio)
+    print(snd.get_length())
+    snd.play()
+
 def draw_wave(f1, f2):
     pygame.init()
 
