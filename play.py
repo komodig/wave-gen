@@ -3,7 +3,8 @@ from animation import play_wave, draw_wave
 import simpleaudio as sa
 
 if __name__ == '__main__':
-    for (a1, a2) in ((sinus_sample(400, 1200000, RATE), sinus_sample(440, 1000000, RATE)),):
+    for (a1, a2) in ((triangular_sequence_1(duration=120000)), (sinus_sequence_1()), (sinus_sequence_2())):
+    #for (a1, a2) in ((sinus_sample(2000, 1200000, RATE), sinus_sample(2400, 1000000, RATE)),):
         if len(a1) < len(a2):
             diff = len(a2) - len(a1)
             print('a1 < a2: ' + str(diff))
