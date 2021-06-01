@@ -1,5 +1,6 @@
 .idea/
+
+*.wav
 __pycache__/
-sound.wav
 stereoAudio.wav
 venv/
