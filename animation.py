@@ -30,7 +30,8 @@ def play_wave(audio):
     print(pygame.mixer.get_num_channels())
     snd = pygame.sndarray.make_sound(audio)
     print(snd.get_length())
-    snd.play()
+    while True:
+        snd.play()
 
 def draw_wave(f1, f2):
     pygame.init()

@@ -1,8 +1,9 @@
 from sequence import *
 from animation import play_wave, draw_wave
+import simpleaudio as sa
 
 if __name__ == '__main__':
-    for (a1, a2) in ((simple_sinus()),):
+    for (a1, a2) in ((sinus_sample(400, 1200000, RATE), sinus_sample(440, 1000000, RATE)),):
         if len(a1) < len(a2):
             diff = len(a2) - len(a1)
             print('a1 < a2: ' + str(diff))
@@ -20,8 +21,11 @@ if __name__ == '__main__':
         audio = audio.transpose()
         audio = audio.copy(order='C')
 
-        play_wave(audio)
+        #play_wave(audio)
         draw_wave(a1, a2)
+        while True:
+            play_obj = sa.play_buffer(audio, 2, 2, RATE)
+            play_obj.wait_done()
 
 
 
