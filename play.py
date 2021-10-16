@@ -2,8 +2,8 @@ from sequence import *
 from animation import play_wave, draw_wave
 import simpleaudio as sa
 
-if __name__ == '__main__':
-    for (a1, a2) in ((triangular_sequence_1(duration=120000)), (sinus_sequence_1()), (sinus_sequence_2())):
+def play_loop():
+    for (a1, a2) in ((sinus_sequence_1()), (triangular_sequence_1())):
     #for (a1, a2) in ((sinus_sample(2000, 1200000, RATE), sinus_sample(2400, 1000000, RATE)),):
         if len(a1) < len(a2):
             diff = len(a2) - len(a1)
@@ -28,5 +28,6 @@ if __name__ == '__main__':
             play_obj = sa.play_buffer(audio, 2, 2, RATE)
             play_obj.wait_done()
 
-
+if __name__ == '__main__':
+    play_loop()
 
